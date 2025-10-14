@@ -14,8 +14,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MOBA Team Optimizer",
-  description: "AI-powered hero composition optimizer for competitive MOBA games",
+  title: "ACO Hero Optimizer - Dota 2 Team Composition",
+  description: "Optimize your Dota 2 team composition using Ant Colony Optimization algorithm. Find the best hero combinations against enemy teams.",
+  openGraph: {
+    title: "ACO Hero Optimizer - Dota 2 Team Composition",
+    description: "Optimize your Dota 2 team composition using Ant Colony Optimization algorithm. Find the best hero combinations against enemy teams.",
+    url: "https://aco.rlatksk.site",
+    siteName: "ACO Hero Optimizer",
+    type: "website",
+    images: [
+      {
+        url: "https://aco.rlatksk.site/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ACO Hero Optimizer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ACO Hero Optimizer - Dota 2 Team Composition",
+    description: "Optimize your Dota 2 team composition using Ant Colony Optimization algorithm.",
+    images: ["https://aco.rlatksk.site/og-image.png"],
+  },
 };
 
 export default function RootLayout({

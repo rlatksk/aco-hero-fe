@@ -71,7 +71,7 @@ export function ConfigurationPanel() {
   ]
 
   return (
-    <Card className="w-full border-gray-700 bg-gray-900">
+    <Card className="w-full glass border-white/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-xl font-semibold flex items-center gap-2 text-white">
           <Settings className="h-5 w-5 text-gray-400" />
@@ -81,7 +81,7 @@ export function ConfigurationPanel() {
           onClick={resetConfig}
           size="sm"
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 glass-hover border-white/10 text-white"
         >
           <RotateCcw className="h-4 w-4" />
           Reset
@@ -107,7 +107,7 @@ export function ConfigurationPanel() {
                 step={field.step}
                 value={config[field.key]}
                 onChange={(e) => handleInputChange(field.key, parseFloat(e.target.value))}
-                className="w-full h-8 px-3 rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full h-8 px-3 rounded-md glass border-white/10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 disabled:cursor-not-allowed disabled:opacity-50"
               />
               <p className="text-xs text-muted-foreground">
                 {field.description}
@@ -117,9 +117,9 @@ export function ConfigurationPanel() {
         ))}
         
         {/* Use All Heroes Toggle */}
-        <div className="space-y-2 pt-2 border-t">
+        <div className="space-y-2 pt-2 border-t border-white/10">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium" htmlFor="use_all_heroes">
+            <label className="text-sm font-medium text-white" htmlFor="use_all_heroes">
               Use All Heroes
             </label>
             <input
@@ -127,16 +127,16 @@ export function ConfigurationPanel() {
               type="checkbox"
               checked={config.use_all_heroes}
               onChange={(e) => handleInputChange('use_all_heroes', e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-2"
+              className="h-4 w-4 rounded border-white/20 bg-white/5 text-emerald-500 focus:ring-emerald-500/50 focus:ring-2"
             />
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-gray-400">
             Include all available heroes in optimization
           </p>
         </div>
 
         {/* Configuration Summary */}
-        <div className="pt-4 border-t border-gray-700">
+        <div className="pt-4 border-t border-white/10">
           <p className="text-xs text-gray-400 text-center">
             Ant Colony Optimization parameters for metaheuristic search
           </p>
