@@ -51,7 +51,7 @@ export function SolutionSection() {
         </CardHeader>
         <CardContent>
           <p className="text-gray-400 text-center py-8 text-sm">
-            Configure your team and click "Optimize" to generate recommendations
+            Configure your team and click &quot;Optimize&quot; to generate recommendations
           </p>
         </CardContent>
       </Card>

@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useAppStore } from '@/store/app-store'
-import { DEFAULT_CONFIG } from '@/types/heroes'
 import { RotateCcw, Settings, X } from 'lucide-react'
 
 export function FloatingConfigPanel() {

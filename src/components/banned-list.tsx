@@ -19,7 +19,6 @@ export function BannedList() {
   }))
 
   const getAvailableHeroes = (currentIndex: number) => {
-    const currentBannedHero = bannedHeroes[currentIndex]
     const usedHeroes = new Set([
       ...bannedHeroes.filter((_, index) => index !== currentIndex),
       ...Object.values(yourTeam).filter(id => id !== undefined),
