@@ -11,44 +11,34 @@
 }
 
 :root {
-  --radius: 0.5rem;
-  --background: #0a0e27;
-  --foreground: #ffffff;
+  --radius: 0.25rem;
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --border: #30363d;
+  --accent: #58a6ff;
 }
 
 @layer base {
   * {
-    @apply outline-emerald-500/50;
+    @apply outline-none;
   }
   
   body {
     @apply bg-background text-foreground antialiased;
-    background-image: 
-      radial-gradient(ellipse at top, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-    background-attachment: fixed;
     min-height: 100vh;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    pointer-events: none;
-    z-index: 0;
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  .card-bg {
+    @apply bg-[#161b22] border border-[#30363d];
   }
   
-  .glass-hover {
-    @apply transition-all duration-300 hover:bg-white/[0.07] hover:border-white/20;
+  .card-hover {
+    @apply transition-colors duration-200 hover:bg-[#1c2128] hover:border-[#484f58];
+  }
+  
+  .input-bg {
+    @apply bg-[#0d1117] border border-[#30363d] focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff];
   }
 }

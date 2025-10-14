@@ -74,7 +74,7 @@ export function Combobox({
                 </span>
               </>
             ) : (
-              <span className="text-muted-foreground">{placeholder}</span>
+              <span className="text-[#8b949e]">{placeholder}</span>
             )}
           </div>
           <div className="flex items-center gap-1">

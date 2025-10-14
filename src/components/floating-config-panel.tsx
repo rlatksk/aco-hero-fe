@@ -76,7 +76,7 @@ export function FloatingConfigPanel() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white p-4 rounded-full shadow-lg shadow-emerald-500/25 transition-all duration-200 transform hover:scale-110 z-40 flex items-center gap-2"
+          className="fixed bottom-6 right-6 bg-[#238636] hover:bg-[#2ea043] text-white p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#238636]/50"
           aria-label="Open ACO Configuration"
         >
           <Settings className="h-6 w-6" />
@@ -92,10 +92,10 @@ export function FloatingConfigPanel() {
 
       {isOpen && (
         <div className="fixed top-1/2 right-6 -translate-y-1/2 z-50 w-96 max-h-[90vh] overflow-hidden">
-          <Card className="glass border-emerald-500/20 shadow-2xl">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 border-b border-white/10">
-              <CardTitle className="text-lg font-semibold flex items-center gap-2 text-white">
-                <Settings className="h-5 w-5 text-emerald-400" />
+          <Card className="shadow-2xl">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 border-b border-[#30363d]">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <Settings className="h-5 w-5 text-[#58a6ff]" />
                 ACO Config
               </CardTitle>
               <div className="flex items-center gap-2">
@@ -103,7 +103,7 @@ export function FloatingConfigPanel() {
                   onClick={resetConfig}
                   size="sm"
                   variant="outline"
-                  className="flex items-center gap-1.5 h-8 text-xs bg-white/5 border-white/10 hover:bg-white/10 text-white"
+                  className="flex items-center gap-1.5 h-8 text-xs"
                 >
                   <RotateCcw className="h-3 w-3" />
                   Reset
@@ -112,7 +112,7 @@ export function FloatingConfigPanel() {
                   onClick={() => setIsOpen(false)}
                   size="sm"
                   variant="ghost"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 h-8 w-8 p-0"
+                  className="h-8 w-8 p-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -122,10 +122,10 @@ export function FloatingConfigPanel() {
               {configFields.map((field) => (
                 <div key={field.key} className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-medium text-white" htmlFor={field.key}>
+                    <label className="text-xs font-medium" htmlFor={field.key}>
                       {field.label}
                     </label>
-                    <span className="text-xs text-emerald-400 font-mono">
+                    <span className="text-xs text-[#58a6ff] font-mono">
                       {config[field.key]}
                     </span>
                   </div>
@@ -138,18 +138,18 @@ export function FloatingConfigPanel() {
                       step={field.step}
                       value={config[field.key]}
                       onChange={(e) => handleInputChange(field.key, parseFloat(e.target.value))}
-                      className="w-full h-7 px-2.5 rounded-md border border-white/10 bg-white/5 text-white text-xs placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500/50 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="w-full h-7 px-2.5 rounded-md input-bg text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                     />
-                    <p className="text-[10px] text-gray-400">
+                    <p className="text-[10px] text-[#8b949e]">
                       {field.description}
                     </p>
                   </div>
                 </div>
               ))}
               
-              <div className="space-y-1.5 pt-2 border-t border-white/10">
+              <div className="space-y-1.5 pt-2 border-t border-[#30363d]">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-medium text-white" htmlFor="use_all_heroes">
+                  <label className="text-xs font-medium" htmlFor="use_all_heroes">
                     Use All Heroes
                   </label>
                   <input
@@ -157,16 +157,16 @@ export function FloatingConfigPanel() {
                     type="checkbox"
                     checked={config.use_all_heroes}
                     onChange={(e) => handleInputChange('use_all_heroes', e.target.checked)}
-                    className="h-4 w-4 rounded border-white/10 text-emerald-600 focus:ring-emerald-500 focus:ring-2 bg-white/5"
+                    className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff] focus:ring-1"
                   />
                 </div>
-                <p className="text-[10px] text-gray-400">
+                <p className="text-[10px] text-[#8b949e]">
                   Include all available heroes in optimization
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-white/10">
-                <p className="text-[10px] text-gray-400 text-center">
+              <div className="pt-2 border-t border-[#30363d]">
+                <p className="text-[10px] text-[#8b949e] text-center">
                   ACO metaheuristic parameters
                 </p>
               </div>

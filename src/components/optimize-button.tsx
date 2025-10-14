@@ -51,7 +51,7 @@ export function OptimizeButton() {
         onClick={handleOptimize}
         disabled={!hasAnyData || isOptimizing}
         size="lg"
-        className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-semibold px-10 py-6 rounded-lg shadow-lg shadow-emerald-500/25 transition-all duration-200 transform hover:scale-105 border-0"
+        className="bg-[#238636] hover:bg-[#2ea043] text-white font-semibold px-10 py-6 rounded-md transition-colors border border-[#238636]/50"
       >
         {isOptimizing ? (
           <>

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Plus, X } from 'lucide-react'
+import { Plus, X, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Combobox } from '@/components/ui/combobox'
@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { getHeroPortraitUrl } from '@/types/heroes'
 
 export function EnemyHeroesSection() {
-  const { enemyHeroes, addEnemyHero, removeEnemyHero, updateEnemyHero, heroes, bannedHeroes, yourTeam } = useAppStore()
+  const { enemyHeroes, addEnemyHero, removeEnemyHero, updateEnemyHero, clearEnemyTeam, heroes, bannedHeroes, yourTeam } = useAppStore()
 
   const heroOptions = heroes.map(hero => ({
     value: hero.id.toString(),
@@ -44,29 +44,38 @@ export function EnemyHeroesSection() {
   }
 
   const handleRemoveEnemy = (index: number) => {
-    const heroId = enemyHeroes[index]
-    if (heroId !== undefined) {
-      removeEnemyHero(heroId)
-    }
+    removeEnemyHero(index)
   }
 
   return (
-    <Card className="glass glass-hover border-white/10">
+    <Card className="card-hover">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold text-white">Enemy Team ({enemyHeroes.length}/5)</CardTitle>
-        <Button 
-          onClick={handleAddEnemy}
-          size="sm"
-          className="bg-emerald-500/20 hover:bg-emerald-500/30 border-emerald-500/30 text-emerald-300 hover:text-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={enemyHeroes.length >= 5}
-        >
-          <Plus className="h-4 w-4 mr-1.5" />
-          Add
-        </Button>
+        <CardTitle className="text-lg font-semibold">Enemy Team ({enemyHeroes.length}/5)</CardTitle>
+        <div className="flex items-center gap-2">
+          {enemyHeroes.length > 0 && (
+            <Button 
+              onClick={clearEnemyTeam}
+              size="sm"
+              variant="ghost"
+              className="text-[#ff7b72] hover:text-[#ff7b72] hover:bg-[#ff7b72]/10"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+          <Button 
+            onClick={handleAddEnemy}
+            size="sm"
+            variant="secondary"
+            disabled={enemyHeroes.length >= 5}
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            Add
+          </Button>
+        </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-h-[200px]">
         {enemyHeroes.length === 0 ? (
-          <p className="text-gray-400 text-center py-6 text-sm">
+          <p className="text-[#8b949e] text-center py-6 text-sm">
             No enemy heroes selected
           </p>
         ) : (
@@ -86,7 +95,7 @@ export function EnemyHeroesSection() {
                   onClick={() => handleRemoveEnemy(index)}
                   size="sm"
                   variant="ghost"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 h-9 w-9 p-0"
+                  className="h-9 w-9 p-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -96,14 +105,14 @@ export function EnemyHeroesSection() {
         )}
         
         {enemyHeroes.length > 0 && enemyHeroes.some(id => id !== -1) && (
-          <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="mt-4 pt-4 border-t border-[#30363d]">
             <div className="flex flex-wrap gap-1.5">
               {enemyHeroes
                 .filter(id => id !== -1)
                 .map(heroId => {
                   const hero = heroes.find(h => h.id === heroId)
                   return hero ? (
-                    <Badge key={heroId} className="text-xs bg-red-500/20 text-red-300 border-red-500/30">
+                    <Badge key={heroId} variant="destructive" className="text-xs">
                       {hero.name}
                     </Badge>
                   ) : null

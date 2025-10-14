@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Plus, X } from 'lucide-react'
+import { Plus, X, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Combobox } from '@/components/ui/combobox'
@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { getHeroPortraitUrl } from '@/types/heroes'
 
 export function BannedList() {
-  const { bannedHeroes, updateBannedHero, addBannedHero, removeBannedHero, heroes, yourTeam, enemyHeroes } = useAppStore()
+  const { bannedHeroes, updateBannedHero, addBannedHero, removeBannedHero, clearBannedHeroes, heroes, yourTeam, enemyHeroes } = useAppStore()
 
   const heroOptions = heroes.map(hero => ({
     value: hero.id.toString(),
@@ -42,28 +42,37 @@ export function BannedList() {
   }
 
   const handleRemoveBan = (index: number) => {
-    const heroId = bannedHeroes[index]
-    if (heroId !== undefined) {
-      removeBannedHero(heroId)
-    }
+    removeBannedHero(index)
   }
 
   return (
-    <Card className="glass glass-hover border-white/10">
+    <Card className="card-hover">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold text-white">Banned Heroes</CardTitle>
-        <Button 
-          onClick={handleAddBan}
-          size="sm"
-          className="bg-emerald-500/20 hover:bg-emerald-500/30 border-emerald-500/30 text-emerald-300 hover:text-emerald-200"
-        >
-          <Plus className="h-4 w-4 mr-1.5" />
-          Add
-        </Button>
+        <CardTitle className="text-lg font-semibold">Banned Heroes</CardTitle>
+        <div className="flex items-center gap-2">
+          {bannedHeroes.length > 0 && (
+            <Button 
+              onClick={clearBannedHeroes}
+              size="sm"
+              variant="ghost"
+              className="text-[#ff7b72] hover:text-[#ff7b72] hover:bg-[#ff7b72]/10"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+          <Button 
+            onClick={handleAddBan}
+            size="sm"
+            variant="secondary"
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            Add
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {bannedHeroes.length === 0 ? (
-          <p className="text-gray-400 text-center py-6 text-sm">
+          <p className="text-[#8b949e] text-center py-6 text-sm">
             No banned heroes
           </p>
         ) : (
@@ -83,7 +92,7 @@ export function BannedList() {
                   onClick={() => handleRemoveBan(index)}
                   size="sm"
                   variant="ghost"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 h-9 w-9 p-0"
+                  className="h-9 w-9 p-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -93,14 +102,14 @@ export function BannedList() {
         )}
         
         {bannedHeroes.length > 0 && bannedHeroes.some(id => id !== -1) && (
-          <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="mt-4 pt-4 border-t border-[#30363d]">
             <div className="flex flex-wrap gap-1.5">
               {bannedHeroes
                 .filter(id => id !== -1)
                 .map(heroId => {
                   const hero = heroes.find(h => h.id === heroId)
                   return hero ? (
-                    <Badge key={heroId} variant="destructive" className="text-xs bg-red-500/20 text-red-300 border-red-500/30">
+                    <Badge key={heroId} variant="destructive" className="text-xs">
                       {hero.name}
                     </Badge>
                   ) : null

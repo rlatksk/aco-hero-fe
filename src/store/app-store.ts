@@ -9,7 +9,7 @@ interface AppState {
   // Banned heroes
   bannedHeroes: number[]
   addBannedHero: (heroId: number) => void
-  removeBannedHero: (heroId: number) => void
+  removeBannedHero: (index: number) => void
   updateBannedHero: (index: number, heroId: number) => void
   
   // Team compositions
@@ -18,13 +18,19 @@ interface AppState {
   updateYourTeam: (role: keyof TeamComposition, heroId: number | undefined) => void
   removeFromYourTeam: (role: keyof TeamComposition) => void
   addEnemyHero: (heroId: number) => void
-  removeEnemyHero: (heroId: number) => void
+  removeEnemyHero: (index: number) => void
   updateEnemyHero: (index: number, heroId: number) => void
   
   // Configuration
   config: OptimizationConfig
   updateConfig: (config: Partial<OptimizationConfig>) => void
   resetConfig: () => void
+  
+  // Clear functions
+  clearBannedHeroes: () => void
+  clearYourTeam: () => void
+  clearEnemyTeam: () => void
+  clearAll: () => void
   
   // Solution/recommendations
   solution: OptimizationResponse | null
@@ -58,9 +64,9 @@ export const useAppStore = create<AppState>((set) => ({
       bannedHeroes: [...state.bannedHeroes, heroId],
     })),
     
-  removeBannedHero: (heroId: number) =>
+  removeBannedHero: (index: number) =>
     set((state) => ({
-      bannedHeroes: state.bannedHeroes.filter((id) => id !== heroId),
+      bannedHeroes: state.bannedHeroes.filter((_, i) => i !== index),
     })),
     
   updateBannedHero: (index: number, heroId: number) =>
@@ -90,9 +96,9 @@ export const useAppStore = create<AppState>((set) => ({
       enemyHeroes: [...state.enemyHeroes, heroId],
     })),
     
-  removeEnemyHero: (heroId: number) =>
+  removeEnemyHero: (index: number) =>
     set((state) => ({
-      enemyHeroes: state.enemyHeroes.filter((id) => id !== heroId),
+      enemyHeroes: state.enemyHeroes.filter((_, i) => i !== index),
     })),
     
   updateEnemyHero: (index: number, heroId: number) =>
@@ -112,6 +118,19 @@ export const useAppStore = create<AppState>((set) => ({
   setSolution: (solution) => set({ solution }),
   
   setIsOptimizing: (isOptimizing) => set({ isOptimizing }),
+  
+  clearBannedHeroes: () => set({ bannedHeroes: [] }),
+  
+  clearYourTeam: () => set({ yourTeam: {} }),
+  
+  clearEnemyTeam: () => set({ enemyHeroes: [] }),
+  
+  clearAll: () => set({ 
+    bannedHeroes: [], 
+    yourTeam: {}, 
+    enemyHeroes: [], 
+    solution: null 
+  }),
   
   reset: () => set(initialState),
 }))
