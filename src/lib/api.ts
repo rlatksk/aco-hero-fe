@@ -1,7 +1,7 @@
 import { OptimizationRequest, OptimizationResponse, Hero, TeamComposition, Role, ROLE_TO_POSITION, OptimizationConfig } from '@/types/heroes'
 
-// const API_BASE_URL = 'https://aco.rlatksk.site/api/v1'
-const API_BASE_URL = 'http://localhost:8080/api/v1' // For local testing
+const API_BASE_URL = 'https://api.rlatksk.site/api/v1'
+//const API_BASE_URL = 'http://localhost:8080/api/v1' // For local testing
 
 export async function fetchHeroes(): Promise<Hero[]> {
   const response = await fetch(`${API_BASE_URL}/heroes`)
