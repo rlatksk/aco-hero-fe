@@ -42,6 +42,14 @@ export function TeamHeroPicker({
   const [selectedHeroId, setSelectedHeroId] = React.useState(value?.heroId || "")
   const [selectedRole, setSelectedRole] = React.useState(value?.role || "")
 
+  // Sync internal state with value prop when it changes or modal opens
+  React.useEffect(() => {
+    if (open) {
+      setSelectedHeroId(value?.heroId || "")
+      setSelectedRole(value?.role || "")
+    }
+  }, [open, value?.heroId, value?.role])
+
   // Filter heroes based on search query
   const filteredOptions = React.useMemo(() => {
     if (!searchQuery) return options
@@ -141,14 +149,26 @@ export function TeamHeroPicker({
     if (selectedHeroId && selectedRole) {
       onValueChange?.(selectedHeroId, selectedRole)
       onOpenChange(false)
-      setSelectedHeroId("")
-      setSelectedRole("")
       setSearchQuery("")
     }
   }
 
+  const handleCancel = () => {
+    // Reset to original values when canceling
+    setSelectedHeroId(value?.heroId || "")
+    setSelectedRole(value?.role || "")
+    setSearchQuery("")
+    onOpenChange(false)
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={(newOpen) => {
+      if (!newOpen) {
+        handleCancel()
+      } else {
+        onOpenChange(newOpen)
+      }
+    }}>
       <DialogContent className={cn("!max-w-[95vw] w-[95vw] h-[90vh] sm:!max-w-[90vw] sm:w-[90vw] sm:h-[85vh] lg:!max-w-[85vw] lg:w-[85vw] !p-0 overflow-hidden !pr-12 sm:!pr-14")}>
         <DialogHeader className="px-3 sm:px-6 pt-3 sm:pt-5 pb-2 sm:pb-3 border-b border-[#21262d] flex-shrink-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">

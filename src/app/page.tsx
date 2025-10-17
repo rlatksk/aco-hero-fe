@@ -53,19 +53,6 @@ export default function Home() {
           <p className="text-sm text-[#8b949e] max-w-2xl mx-auto leading-relaxed">
             0/1 Knapsack Problem solved using Ant Colony Optimization metaheuristic algorithm
           </p>
-          {hasData && (
-            <div className="mt-4">
-              <Button
-                onClick={clearAll}
-                variant="outline"
-                size="sm"
-                className="text-[#ff7b72] border-[#ff7b72]/30 hover:bg-[#ff7b72]/10"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear All
-              </Button>
-            </div>
-          )}
         </header>
 
         <div className="space-y-6">
@@ -86,6 +73,20 @@ export default function Home() {
         </footer>
 
         <FloatingConfigPanel />
+        
+        {/* Floating Clear All Button */}
+        {hasData && (
+          <div className="fixed bottom-6 left-6 z-50">
+            <Button
+              onClick={clearAll}
+              size="lg"
+              className="bg-[#ff7b72] hover:bg-[#ff8b82] text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full h-14 px-6"
+            >
+              <Trash2 className="h-5 w-5 mr-2" />
+              Clear All
+            </Button>
+          </div>
+        )}
       </div>
     </main>
   )
