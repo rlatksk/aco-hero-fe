@@ -1,11 +1,13 @@
 import { Hero } from "@/types/heroes"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api/v1'
+
 // Heroes will be loaded from API
 export let HEROES: Hero[] = []
 
 export const loadHeroes = async (): Promise<Hero[]> => {
   try {
-    const response = await fetch('https://aco.rlatksk.site/api/v1/heroes')
+    const response = await fetch(`${API_BASE_URL}/heroes`)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
