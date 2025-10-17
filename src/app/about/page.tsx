@@ -27,7 +27,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-[#c9d1d9]">
               <p>
-                The <strong>0/1 Knapsack Problem</strong> is a classic optimization problem in computer science and mathematics. 
+                The <strong>0/1 Knapsack Problem</strong> is a classic optimization problem in operation research. 
                 Imagine you have a knapsack (backpack) with a limited weight capacity, and you have a set of items, 
                 each with its own weight and value. The goal is to select items to put in the knapsack to maximize 
                 the total value while staying within the weight limit.
