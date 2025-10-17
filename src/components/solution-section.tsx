@@ -76,8 +76,8 @@ export function SolutionSection() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 max-w-fit">
+        <div className="flex justify-center items-center">
+          <div className="flex flex-wrap gap-3 justify-center max-w-5xl">
             {sortedRecommendedPicks.length > 0 ? (
               sortedRecommendedPicks.map((pick, index) => {
               const hero = heroes.find(h => h.name === pick.hero_name)

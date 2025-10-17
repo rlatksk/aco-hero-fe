@@ -4,13 +4,15 @@ import React from 'react'
 import { Plus, X, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Combobox } from '@/components/ui/combobox'
+import { HeroPicker } from '@/components/ui/hero-picker'
 import { useAppStore } from '@/store/app-store'
 import { Badge } from '@/components/ui/badge'
 import { getHeroPortraitUrl } from '@/types/heroes'
 
 export function EnemyHeroesSection() {
   const { enemyHeroes, addEnemyHero, removeEnemyHero, updateEnemyHero, clearEnemyTeam, heroes, bannedHeroes, yourTeam } = useAppStore()
+  const [pickerOpen, setPickerOpen] = React.useState(false)
+  const [editingIndex, setEditingIndex] = React.useState<number | null>(null)
 
   const heroOptions = heroes.map(hero => ({
     value: hero.id.toString(),
@@ -18,41 +20,48 @@ export function EnemyHeroesSection() {
     imageUrl: getHeroPortraitUrl(hero.id)
   }))
 
-  const getAvailableHeroes = (currentIndex: number) => {
-    // Get all used heroes (banned + your team + other enemy slots, excluding current slot)
-    const usedHeroes = new Set([
+  const getUsedHeroes = () => {
+    // Get all used heroes (banned + your team + other enemy slots, excluding current editing slot)
+    return new Set([
       ...bannedHeroes,
       ...Object.values(yourTeam).filter(id => id !== undefined),
-      ...enemyHeroes.filter((_, index) => index !== currentIndex)
+      ...enemyHeroes.filter((id, index) => id !== -1 && (editingIndex === null || index !== editingIndex))
     ])
-    
-    return heroOptions.filter(option => !usedHeroes.has(parseInt(option.value)))
   }
 
   const handleAddEnemy = () => {
-    addEnemyHero(-1) // Use -1 as placeholder for empty slot
+    setEditingIndex(null)
+    setPickerOpen(true)
   }
 
-  const handleEnemyChange = (index: number, heroIdStr: string) => {
-    if (heroIdStr === "" || heroIdStr === null || heroIdStr === undefined) {
-      // If empty string, set to -1 (placeholder)
-      updateEnemyHero(index, -1)
+  const handleEditEnemy = (index: number) => {
+    setEditingIndex(index)
+    setPickerOpen(true)
+  }
+
+  const handlePickerValueChange = (heroIdStr: string) => {
+    const heroId = parseInt(heroIdStr)
+    
+    if (editingIndex !== null) {
+      updateEnemyHero(editingIndex, heroId)
     } else {
-      const heroId = parseInt(heroIdStr)
-      updateEnemyHero(index, heroId)
+      addEnemyHero(heroId)
     }
+    setPickerOpen(false)
   }
 
   const handleRemoveEnemy = (index: number) => {
     removeEnemyHero(index)
   }
 
+  const actualEnemyCount = enemyHeroes.filter(id => id !== -1).length
+
   return (
     <Card className="card-hover">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold">Enemy Team ({enemyHeroes.length}/5)</CardTitle>
+        <CardTitle className="text-lg font-semibold">Enemy Team ({actualEnemyCount}/5)</CardTitle>
         <div className="flex items-center gap-2">
-          {enemyHeroes.length > 0 && (
+          {actualEnemyCount > 0 && (
             <Button 
               onClick={clearEnemyTeam}
               size="sm"
@@ -66,7 +75,7 @@ export function EnemyHeroesSection() {
             onClick={handleAddEnemy}
             size="sm"
             variant="secondary"
-            disabled={enemyHeroes.length >= 5}
+            disabled={actualEnemyCount >= 5}
           >
             <Plus className="h-4 w-4 mr-1.5" />
             Add
@@ -74,33 +83,43 @@ export function EnemyHeroesSection() {
         </div>
       </CardHeader>
       <CardContent className="min-h-[200px]">
-        {enemyHeroes.length === 0 ? (
+        {actualEnemyCount === 0 ? (
           <p className="text-[#8b949e] text-center py-6 text-sm">
             No enemy heroes selected
           </p>
         ) : (
           <div className="space-y-2.5">
-            {enemyHeroes.map((heroId, index) => (
-              <div key={index} className="flex items-center gap-2.5">
-                <div className="flex-1">
-                  <Combobox
-                    options={getAvailableHeroes(index)}
-                    value={heroId === -1 ? '' : heroId.toString()}
-                    onValueChange={(value) => handleEnemyChange(index, value)}
-                    placeholder="Select enemy hero..."
-                    emptyText="No heroes found."
-                  />
+            {enemyHeroes.filter(id => id !== -1).map((heroId, index) => {
+              const hero = heroes.find(h => h.id === heroId)
+              const actualIndex = enemyHeroes.indexOf(heroId)
+              return (
+                <div key={actualIndex} className="flex items-center gap-2.5">
+                  <div 
+                    className="flex-1 flex items-center gap-3 p-3 rounded-lg border border-[#30363d] bg-[#161b22] hover:bg-[#1c2128] transition-colors cursor-pointer"
+                    onClick={() => handleEditEnemy(actualIndex)}
+                  >
+                    {hero && (
+                      <img 
+                        src={getHeroPortraitUrl(hero.id)}
+                        alt={hero.name}
+                        className="w-12 h-16 rounded object-cover"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{hero?.name || 'Unknown Hero'}</p>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => handleRemoveEnemy(actualIndex)}
+                    size="sm"
+                    variant="ghost"
+                    className="h-9 w-9 p-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button
-                  onClick={() => handleRemoveEnemy(index)}
-                  size="sm"
-                  variant="ghost"
-                  className="h-9 w-9 p-0"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
         
@@ -121,6 +140,15 @@ export function EnemyHeroesSection() {
           </div>
         )}
       </CardContent>
+
+      <HeroPicker
+        options={heroOptions}
+        usedHeroes={getUsedHeroes()}
+        value={editingIndex !== null ? enemyHeroes[editingIndex]?.toString() : ''}
+        onValueChange={handlePickerValueChange}
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+      />
     </Card>
   )
 }

@@ -46,8 +46,8 @@ export default function Home() {
   return (
     <main className="min-h-screen p-4 relative">
       <div className="container mx-auto max-w-7xl relative z-10">
-        <header className="text-center py-12 mb-8">
-          <h1 className="text-5xl font-bold text-foreground mb-3 tracking-tight">
+        <header className="text-center py-8 mb-6">
+          <h1 className="text-4xl font-bold text-foreground mb-2 tracking-tight">
             Dota 2 <span className="text-[#58a6ff]">ACO</span> Optimizer
           </h1>
           <p className="text-sm text-[#8b949e] max-w-2xl mx-auto leading-relaxed">
@@ -80,7 +80,8 @@ export default function Home() {
 
         <footer className="mt-20 pt-6 border-t border-[#21262d] text-center">
           <p className="text-xs text-[#8b949e]">
-            Made by rlatksk
+            This project was developed as a final assessment demonstrating the application of 
+            Ant Colony Optimization to solve the 0/1 Knapsack Problem in the context of Dota 2 hero selection.
           </p>
         </footer>
 

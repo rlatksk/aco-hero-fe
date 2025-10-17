@@ -4,7 +4,7 @@ import React from 'react'
 import { Plus, X, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Combobox } from '@/components/ui/combobox'
+import { TeamHeroPicker } from '@/components/ui/team-hero-picker'
 import { useAppStore } from '@/store/app-store'
 import { Badge } from '@/components/ui/badge'
 import { Role, ROLE_LABELS, getHeroPortraitUrl } from '@/types/heroes'
@@ -16,6 +16,8 @@ interface TeamMember {
 
 export function TeamSections() {
   const { yourTeam, updateYourTeam, removeFromYourTeam, clearYourTeam, heroes, bannedHeroes, enemyHeroes } = useAppStore()
+  const [pickerOpen, setPickerOpen] = React.useState(false)
+  const [editingRole, setEditingRole] = React.useState<Role | null>(null)
 
   const heroOptions = heroes.map(hero => ({
     value: hero.id.toString(),
@@ -36,14 +38,12 @@ export function TeamSections() {
       role: role as Role
     }))
 
-  const getAvailableHeroes = (currentHeroId?: number) => {
-    const usedHeroes = new Set([
+  const getUsedHeroes = (currentHeroId?: number) => {
+    return new Set([
       ...bannedHeroes,
       ...Object.values(yourTeam).filter(id => id !== undefined && id !== currentHeroId),
       ...enemyHeroes.filter(id => id !== -1)
     ])
-    
-    return heroOptions.filter(option => !usedHeroes.has(parseInt(option.value)))
   }
 
   const getAvailableRoles = (currentRole?: Role) => {
@@ -55,33 +55,26 @@ export function TeamSections() {
   }
 
   const handleAddTeamMember = () => {
-    // Find first available role
-    const usedRoles = new Set(Object.keys(yourTeam).filter(role => yourTeam[role as Role] !== undefined))
-    const availableRole = Object.values(Role).find(role => !usedRoles.has(role))
+    setPickerOpen(true)
+    setEditingRole(null)
+  }
+
+  const handleEditTeamMember = (role: Role) => {
+    setEditingRole(role)
+    setPickerOpen(true)
+  }
+
+  const handlePickerValueChange = (heroIdStr: string, roleStr: string) => {
+    const heroId = parseInt(heroIdStr)
+    const role = roleStr as Role
     
-    if (availableRole) {
-      updateYourTeam(availableRole, -1) // Use -1 as placeholder
+    // If editing existing member, remove old entry
+    if (editingRole) {
+      updateYourTeam(editingRole, undefined)
     }
-  }
-
-  const handleHeroChange = (oldRole: Role, newHeroIdStr: string) => {
-    if (newHeroIdStr === "" || newHeroIdStr === null || newHeroIdStr === undefined) {
-      // If empty string, set to -1 (placeholder)
-      updateYourTeam(oldRole, -1)
-    } else {
-      const newHeroId = parseInt(newHeroIdStr)
-      updateYourTeam(oldRole, newHeroId)
-    }
-  }
-
-  const handleRoleChange = (oldRole: Role, newRole: string) => {
-    const heroId = yourTeam[oldRole]
-    if (heroId !== undefined) {
-      // Remove from old role
-      updateYourTeam(oldRole, undefined)
-      // Add to new role
-      updateYourTeam(newRole as Role, heroId)
-    }
+    
+    // Add new entry
+    updateYourTeam(role, heroId)
   }
 
   const handleRemove = (role: Role) => {
@@ -124,34 +117,37 @@ export function TeamSections() {
             </p>
           ) : (
             <div className="space-y-2.5">
-              {teamMembers.map((member) => (
-                <div key={member.role} className="flex items-center gap-2.5">
-                  <div className="flex-1 grid grid-cols-2 gap-2.5">
-                    <Combobox
-                      options={getAvailableHeroes(member.heroId)}
-                      value={member.heroId === -1 ? '' : member.heroId.toString()}
-                      onValueChange={(value) => handleHeroChange(member.role, value)}
-                      placeholder="Select hero..."
-                      emptyText="No heroes found."
-                    />
-                    <Combobox
-                      options={getAvailableRoles(member.role)}
-                      value={member.role}
-                      onValueChange={(value) => handleRoleChange(member.role, value)}
-                      placeholder="Select role..."
-                      emptyText="No roles available."
-                    />
+              {teamMembers.map((member) => {
+                const hero = heroes.find(h => h.id === member.heroId)
+                return (
+                  <div key={member.role} className="flex items-center gap-2.5">
+                    <div 
+                      className="flex-1 flex items-center gap-3 p-3 rounded-lg border border-[#30363d] bg-[#161b22] hover:bg-[#1c2128] transition-colors cursor-pointer"
+                      onClick={() => handleEditTeamMember(member.role)}
+                    >
+                      {hero && (
+                        <img 
+                          src={getHeroPortraitUrl(hero.id)}
+                          alt={hero.name}
+                          className="w-12 h-16 rounded object-cover"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{hero?.name || 'Select hero...'}</p>
+                        <p className="text-xs text-[#8b949e]">{ROLE_LABELS[member.role]}</p>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => handleRemove(member.role)}
+                      size="sm"
+                      variant="ghost"
+                      className="h-9 w-9 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => handleRemove(member.role)}
-                    size="sm"
-                    variant="ghost"
-                    className="h-9 w-9 p-0"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
           
@@ -173,6 +169,16 @@ export function TeamSections() {
           )}
         </CardContent>
       </Card>
+
+      <TeamHeroPicker
+        options={heroOptions}
+        usedHeroes={getUsedHeroes(editingRole ? yourTeam[editingRole] : undefined)}
+        value={editingRole ? { heroId: yourTeam[editingRole]?.toString() || '', role: editingRole } : undefined}
+        onValueChange={handlePickerValueChange}
+        availableRoles={getAvailableRoles(editingRole || undefined)}
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+      />
     </div>
   )
 }
