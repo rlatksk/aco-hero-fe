@@ -13,7 +13,7 @@ export default function AboutPage() {
             About This Project
           </h1>
           <p className="text-[#8b949e]">
-            Understanding the technology behind the Dota 2 hero optimizer
+            Understanding the technology behind my the Dota 2 hero optimizer
           </p>
         </header>
 
@@ -97,15 +97,14 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-[#c9d1d9]">
               <p>
-                Hi! I&apos;m <strong className="text-[#58a6ff]">rlatksk</strong>, a developer passionate about combining 
-                artificial intelligence, optimization algorithms, and gaming. This project was developed as part of 
-                my final assessment to demonstrate the practical application of metaheuristic algorithms in solving 
-                real-world problems.
+                Hi! I&apos;m <strong className="text-[#58a6ff]">rlatksk</strong> a computer science student from Indonesia. 
+                This project is part of my final assessment to demonstrate the practical application of 
+                metaheuristic algorithms in solving real-world optimization problems.
               </p>
               <p>
-                As a Dota 2 player, I&apos;ve always been fascinated by the strategic depth of hero selection and team composition. 
-                This project bridges my interests in gaming and computer science, using advanced algorithms to help players 
-                make better draft decisions.
+                Through this application, I aim to showcase how Ant Colony Optimization can be effectively 
+                applied to the 0/1 Knapsack Problem in the context of Dota 2 hero selection, combining 
+                theoretical concepts with practical implementation.
               </p>
               
               <div className="flex flex-wrap gap-3 mt-6">
