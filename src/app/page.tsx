@@ -10,6 +10,8 @@ import { useHeroes } from '@/hooks/use-heroes'
 import { useAppStore } from '@/store/app-store'
 import { Loader2, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Home() {
   const { isLoading, error } = useHeroes()
@@ -21,14 +23,72 @@ export default function Home() {
                   enemyHeroes.length > 0 || 
                   solution !== null
 
+  const handleClearAll = () => {
+    clearAll()
+    toast.success('Cleared all data', {
+      description: 'All selections have been reset',
+    })
+  }
+
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-[#58a6ff]" />
-          <p className="text-sm text-[#8b949e]">Loading heroes...</p>
+      <main className="min-h-screen p-4 relative">
+        <div className="container mx-auto max-w-7xl relative z-10">
+          {/* Header Skeleton */}
+          <header className="text-center py-8 mb-6">
+            <Skeleton className="h-10 w-80 mx-auto mb-2" />
+            <Skeleton className="h-4 w-96 mx-auto" />
+          </header>
+
+          <div className="space-y-6">
+            {/* Banned List Skeleton */}
+            <div className="card-bg rounded-md p-4">
+              <Skeleton className="h-6 w-32 mb-3" />
+              <div className="flex flex-wrap gap-2">
+                {[...Array(10)].map((_, i) => (
+                  <Skeleton key={i} className="h-12 w-16" />
+                ))}
+              </div>
+            </div>
+
+            {/* Team Sections Skeleton */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Your Team */}
+              <div className="card-bg rounded-md p-4">
+                <Skeleton className="h-6 w-32 mb-3" />
+                <div className="space-y-3">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <Skeleton className="h-10 w-20" />
+                      <Skeleton className="h-10 flex-1" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Enemy Team */}
+              <div className="card-bg rounded-md p-4">
+                <Skeleton className="h-6 w-32 mb-3" />
+                <div className="flex flex-wrap gap-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-16" />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Optimize Button Skeleton */}
+            <div className="flex justify-center py-6">
+              <Skeleton className="h-14 w-48" />
+            </div>
+          </div>
+
+          {/* Footer Skeleton */}
+          <footer className="mt-20 pt-6 border-t border-[#21262d] text-center">
+            <Skeleton className="h-4 w-full max-w-2xl mx-auto" />
+          </footer>
         </div>
-      </div>
+      </main>
     )
   }
 
@@ -78,7 +138,7 @@ export default function Home() {
         {hasData && (
           <div className="fixed bottom-6 left-6 z-50">
             <Button
-              onClick={clearAll}
+              onClick={handleClearAll}
               size="lg"
               className="bg-[#ff7b72] hover:bg-[#ff8b82] text-[#F5FBEF] shadow-lg hover:shadow-xl transition-all duration-200 rounded-full h-14 px-6"
             >

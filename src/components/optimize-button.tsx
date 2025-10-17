@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/app-store'
 import { useMutation } from '@tanstack/react-query'
 import { optimizeTeamComposition } from '@/lib/api'
 import { Loader2, Zap } from 'lucide-react'
+import { toast } from 'sonner'
 
 export function OptimizeButton() {
   const { 
@@ -24,20 +25,33 @@ export function OptimizeButton() {
     onMutate: () => {
       setIsOptimizing(true)
       setSolution(null)
+      toast.info('Running ACO algorithm...', {
+        description: 'Finding optimal team composition',
+      })
     },
     onSuccess: (data) => {
       setSolution(data)
       setIsOptimizing(false)
+      toast.success('Optimization complete!', {
+        description: `Found optimal team with score: ${data.best_score.toFixed(2)}`,
+      })
     },
     onError: (error) => {
       console.error('Optimization failed:', error)
       setIsOptimizing(false)
-      // Show error message to user
-      alert(`Optimization failed: ${error.message}`)
+      toast.error('Optimization failed', {
+        description: error.message || 'An unexpected error occurred',
+      })
     }
   })
 
   const handleOptimize = () => {
+    if (!hasAnyData) {
+      toast.warning('No data provided', {
+        description: 'Please select heroes to optimize',
+      })
+      return
+    }
     mutation.mutate()
   }
 
