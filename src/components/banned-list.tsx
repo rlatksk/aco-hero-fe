@@ -87,7 +87,7 @@ export function BannedList() {
           </p>
         ) : (
           <div className="space-y-2.5">
-            {bannedHeroes.filter(id => id !== -1).map((heroId, index) => {
+            {bannedHeroes.filter(id => id !== -1).map((heroId) => {
               const hero = heroes.find(h => h.id === heroId)
               const actualIndex = bannedHeroes.indexOf(heroId)
               return (

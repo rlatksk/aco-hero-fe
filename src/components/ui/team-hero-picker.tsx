@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Combobox } from "@/components/ui/combobox"
-import { HeroAttribute, ATTRIBUTE_LABELS, getHeroAttribute, Role, ROLE_LABELS } from "@/types/heroes"
+import { HeroAttribute, ATTRIBUTE_LABELS, getHeroAttribute } from "@/types/heroes"
 import Image from "next/image"
 
 export interface HeroOption {

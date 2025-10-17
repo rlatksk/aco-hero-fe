@@ -34,7 +34,7 @@ export async function optimizeTeamComposition(
   
   // Convert your team to teammates array
   const teammates = Object.entries(yourTeam)
-    .filter(([_, heroId]) => heroId !== undefined)
+    .filter(([, heroId]) => heroId !== undefined)
     .map(([role, heroId]) => {
       const heroName = heroes.find(h => h.id === heroId!)?.name
       const position = ROLE_TO_POSITION[role as Role]

@@ -33,16 +33,16 @@ export default function AboutPage() {
                 the total value while staying within the weight limit.
               </p>
               <p>
-                The "0/1" part means that for each item, you can either take it (1) or leave it (0) — you cannot 
+                The &quot;0/1&quot; part means that for each item, you can either take it (1) or leave it (0) — you cannot 
                 take a fraction of an item. This makes it a discrete optimization problem.
               </p>
               <div className="bg-[#161b22] p-4 rounded-md border border-[#21262d]">
                 <h4 className="font-semibold mb-2 text-[#58a6ff]">Application to Dota 2:</h4>
                 <p className="text-sm">
-                  In this project, heroes are the "items," and the team composition is the "knapsack." 
+                  In this project, heroes are the &quot;items,&quot; and the team composition is the &quot;knapsack.&quot; 
                   Each hero has attributes (like win rate, synergy with teammates, counter effectiveness against enemies) 
-                  that contribute to the team's overall "value." The constraint is the team size (5 heroes) and role requirements. 
-                  The optimizer finds the best combination of heroes to maximize your team's effectiveness.
+                  that contribute to the team&apos;s overall &quot;value.&quot; The constraint is the team size (5 heroes) and role requirements. 
+                  The optimizer finds the best combination of heroes to maximize your team&apos;s effectiveness.
                 </p>
               </div>
             </CardContent>
@@ -97,13 +97,13 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-[#c9d1d9]">
               <p>
-                Hi! I'm <strong className="text-[#58a6ff]">rlatksk</strong>, a developer passionate about combining 
+                Hi! I&apos;m <strong className="text-[#58a6ff]">rlatksk</strong>, a developer passionate about combining 
                 artificial intelligence, optimization algorithms, and gaming. This project was developed as part of 
                 my final assessment to demonstrate the practical application of metaheuristic algorithms in solving 
                 real-world problems.
               </p>
               <p>
-                As a Dota 2 player, I've always been fascinated by the strategic depth of hero selection and team composition. 
+                As a Dota 2 player, I&apos;ve always been fascinated by the strategic depth of hero selection and team composition. 
                 This project bridges my interests in gaming and computer science, using advanced algorithms to help players 
                 make better draft decisions.
               </p>
@@ -132,7 +132,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-[#c9d1d9]">
               <p>
-                If you've used this optimizer, I would greatly appreciate your feedback! Your input will help me 
+                If you&apos;ve used this optimizer, I would greatly appreciate your feedback! Your input will help me 
                 improve the project and provide valuable insights for my academic assessment.
               </p>
               <p className="text-sm">

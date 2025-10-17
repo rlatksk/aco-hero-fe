@@ -89,7 +89,7 @@ export function EnemyHeroesSection() {
           </p>
         ) : (
           <div className="space-y-2.5">
-            {enemyHeroes.filter(id => id !== -1).map((heroId, index) => {
+            {enemyHeroes.filter(id => id !== -1).map((heroId) => {
               const hero = heroes.find(h => h.id === heroId)
               const actualIndex = enemyHeroes.indexOf(heroId)
               return (

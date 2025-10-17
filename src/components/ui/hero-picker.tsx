@@ -47,7 +47,6 @@ export function HeroPicker({
 }: HeroPickerProps) {
   const [internalOpen, setInternalOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
-  const dialogRef = React.useRef<HTMLDivElement>(null)
 
   // Use controlled or internal state
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen
@@ -226,10 +225,10 @@ export function HeroPicker({
           </p>
         </DialogHeader>
         
-        <div className="overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 scrollbar-hide" style={{ height: 'calc(90vh - 100px)' }}>
+        <div className="overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 pb-6 sm:pb-8 scrollbar-hide" style={{ height: 'calc(90vh - 100px)' }}>
           {filteredOptions.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-[#8b949e]">No heroes found for "{searchQuery}"</p>
+              <p className="text-[#8b949e]">No heroes found for &quot;{searchQuery}&quot;</p>
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
@@ -255,7 +254,7 @@ export function HeroPicker({
                       </h3>
                       <div className="flex-1 h-px bg-[#21262d]"></div>
                     </div>
-                    <div className="grid grid-cols-4 xs:grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-14 2xl:grid-cols-16 gap-1.5 sm:gap-2">
+                    <div className="grid grid-cols-4 xs:grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-14 2xl:grid-cols-16 gap-1.5 sm:gap-2 mb-4">
                       {heroesInAttribute.map((option) => {
                         const isFiltered = !filteredOptions.some(filtered => filtered.value === option.value)
                         const isSelected = option.value === value
@@ -267,16 +266,17 @@ export function HeroPicker({
                             onClick={() => handleSelect(option.value)}
                             disabled={isUsed}
                             className={cn(
-                              "group relative aspect-[3/4] rounded-md overflow-hidden transition-all duration-200",
+                              "group relative aspect-[3/4] rounded-md overflow-visible transition-all duration-200",
                               "border-2",
-                              !isUsed && "hover:scale-105 hover:z-10",
+                              !isUsed && "hover:scale-105 hover:z-20",
                               isSelected 
-                                ? "border-[#58a6ff] ring-2 ring-[#58a6ff]/50 scale-105" 
+                                ? "border-[#58a6ff] ring-2 ring-[#58a6ff]/50 scale-105 z-10" 
                                 : "border-transparent hover:border-[#8b949e]",
                               (isFiltered || isUsed) && "opacity-30 grayscale",
                               isUsed && "cursor-not-allowed"
                             )}
                           >
+                    <div className="absolute inset-0 rounded-md overflow-hidden">
                     {option.imageUrl ? (
                       <>
                         <img
@@ -299,8 +299,8 @@ export function HeroPicker({
                           }}
                         />
                         {/* Hero name tooltip */}
-                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <p className="text-[10px] font-medium text-white text-center leading-tight">
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-1.5 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          <p className="text-[9px] sm:text-[10px] font-medium text-white text-center leading-tight break-words">
                             {option.label}
                           </p>
                         </div>
@@ -326,6 +326,7 @@ export function HeroPicker({
                         {option.label}
                       </div>
                     )}
+                    </div>
                   </button>
                 )
               })}

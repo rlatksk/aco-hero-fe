@@ -32,7 +32,7 @@ export function TeamSections() {
 
   // Convert yourTeam object to array for easier rendering
   const teamMembers: TeamMember[] = Object.entries(yourTeam)
-    .filter(([_, heroId]) => heroId !== undefined)
+    .filter(([, heroId]) => heroId !== undefined)
     .map(([role, heroId]) => ({
       heroId: heroId as number,
       role: role as Role
