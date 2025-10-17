@@ -41,8 +41,11 @@ export function OptimizeButton() {
     mutation.mutate()
   }
 
+  // Check if there's at least one valid hero selected in "your team"
+  const hasValidTeamHero = Object.values(yourTeam).some(id => id !== undefined && id !== -1)
+  
   const hasAnyData = bannedHeroes.some(id => id !== -1) || 
-                    Object.values(yourTeam).some(id => id !== undefined) || 
+                    hasValidTeamHero || 
                     enemyHeroes.some(id => id !== -1)
 
   return (

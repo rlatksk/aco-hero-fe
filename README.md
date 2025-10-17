@@ -2,6 +2,20 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment Setup
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env.local
+```
+
+2. Update `.env.local` with your local API URL:
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/v1
+```
+
+### Running the Development Server
+
 First, run the development server:
 
 ```bash
@@ -29,8 +43,15 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+**Note:** Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+**Important:** When deploying to Vercel, make sure to set the environment variable:
+- Go to your project settings in Vercel
+- Navigate to "Environment Variables"
+- Add `NEXT_PUBLIC_API_BASE_URL` with value `https://api.rlatksk.site/api/v1`
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
