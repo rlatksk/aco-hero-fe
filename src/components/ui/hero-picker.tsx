@@ -91,7 +91,7 @@ export function HeroPicker({
     { 
       type: HeroAttribute.AGILITY, 
       icon: '/Agility_attribute_symbol.webp',
-      color: 'text-[#33ff33]'
+      color: 'text-[#136F63]'
     },
     { 
       type: HeroAttribute.INTELLIGENCE, 
@@ -300,7 +300,7 @@ export function HeroPicker({
                         />
                         {/* Hero name tooltip */}
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-1.5 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                          <p className="text-[9px] sm:text-[10px] font-medium text-white text-center leading-tight break-words">
+                          <p className="text-[9px] sm:text-[10px] font-medium text-[#F5FBEF] text-center leading-tight break-words">
                             {option.label}
                           </p>
                         </div>
@@ -308,7 +308,7 @@ export function HeroPicker({
                         {isSelected && (
                           <div className="absolute top-1 right-1 w-5 h-5 bg-[#58a6ff] rounded-full flex items-center justify-center">
                             <svg 
-                              className="w-3 h-3 text-white" 
+                              className="w-3 h-3 text-[#F5FBEF]" 
                               fill="none" 
                               strokeLinecap="round" 
                               strokeLinejoin="round" 

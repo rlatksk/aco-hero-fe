@@ -142,7 +142,7 @@ export default function AboutPage() {
               <div className="pt-4">
                 <Button 
                   asChild 
-                  className="w-full sm:w-auto bg-[#1f6feb] hover:bg-[#1f6feb]/90 text-white"
+                  className="w-full sm:w-auto bg-[#216FE6] hover:bg-[#66A8F9] text-[#F5FBEF]"
                   size="lg"
                 >
                   <a 

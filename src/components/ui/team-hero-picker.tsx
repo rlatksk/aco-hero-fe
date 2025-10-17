@@ -87,7 +87,7 @@ export function TeamHeroPicker({
     { 
       type: HeroAttribute.AGILITY, 
       icon: '/Agility_attribute_symbol.webp',
-      color: 'text-[#33ff33]'
+      color: 'text-[#136F63]'
     },
     { 
       type: HeroAttribute.INTELLIGENCE, 
@@ -193,7 +193,7 @@ export function TeamHeroPicker({
               <Button
                 onClick={handleConfirm}
                 disabled={!selectedHeroId || !selectedRole}
-                className="bg-[#238636] hover:bg-[#2ea043] text-white disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-4"
+                className="bg-[#136F63] hover:bg-[#136F63]/90 text-[#F5FBEF] disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-4"
               >
                 Confirm
               </Button>
@@ -275,7 +275,7 @@ export function TeamHeroPicker({
                                 />
                                 {/* Hero name tooltip */}
                                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <p className="text-[10px] font-medium text-white text-center leading-tight">
+                                  <p className="text-[10px] font-medium text-[#F5FBEF] text-center leading-tight">
                                     {option.label}
                                   </p>
                                 </div>
@@ -283,7 +283,7 @@ export function TeamHeroPicker({
                                 {isSelected && (
                                   <div className="absolute top-1 right-1 w-5 h-5 bg-[#58a6ff] rounded-full flex items-center justify-center">
                                     <svg 
-                                      className="w-3 h-3 text-white" 
+                                      className="w-3 h-3 text-[#F5FBEF]" 
                                       fill="none" 
                                       strokeLinecap="round" 
                                       strokeLinejoin="round" 

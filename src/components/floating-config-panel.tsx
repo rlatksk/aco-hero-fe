@@ -76,7 +76,7 @@ export function FloatingConfigPanel() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-[#238636] hover:bg-[#2ea043] text-white p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#238636]/50"
+          className="fixed bottom-6 right-6 bg-[#136F63] hover:bg-[#136F63]/90 text-[#F5FBEF] p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#136F63]/50"
           aria-label="Open ACO Configuration"
         >
           <Settings className="h-6 w-6" />

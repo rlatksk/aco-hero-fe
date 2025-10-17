@@ -80,7 +80,7 @@ export default function Home() {
             <Button
               onClick={clearAll}
               size="lg"
-              className="bg-[#ff7b72] hover:bg-[#ff8b82] text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full h-14 px-6"
+              className="bg-[#ff7b72] hover:bg-[#ff8b82] text-[#F5FBEF] shadow-lg hover:shadow-xl transition-all duration-200 rounded-full h-14 px-6"
             >
               <Trash2 className="h-5 w-5 mr-2" />
               Clear All
