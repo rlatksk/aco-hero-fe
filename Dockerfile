@@ -8,17 +8,16 @@ RUN npm ci
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Accept build argument
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 
 # Debug: Print the API URL
-RUN echo "Building with NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
+RUN echo "Building with NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}"
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the application with the environment variable
+# Build the application
 RUN npm run build
 
 # Stage 3: Runner
