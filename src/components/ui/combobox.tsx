@@ -22,7 +22,6 @@ import {
 export interface ComboboxOption {
   value: string
   label: string
-  imageUrl?: string
 }
 
 interface ComboboxProps {
@@ -58,21 +57,9 @@ export function Combobox({
         >
           <div className="flex items-center gap-2 flex-1 min-w-0">
             {value ? (
-              <>
-                {options.find((option) => option.value === value)?.imageUrl && (
-                  <img 
-                    src={options.find((option) => option.value === value)?.imageUrl} 
-                    alt=""
-                    className="w-6 h-6 rounded object-cover flex-shrink-0"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                )}
-                <span className="truncate">
-                  {options.find((option) => option.value === value)?.label}
-                </span>
-              </>
+              <span className="truncate">
+                {options.find((option) => option.value === value)?.label}
+              </span>
             ) : (
               <span className="text-[#8b949e]">{placeholder}</span>
             )}
@@ -125,19 +112,7 @@ export function Combobox({
                       value === option.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
-                    {option.imageUrl && (
-                      <img 
-                        src={option.imageUrl} 
-                        alt=""
-                        className="w-6 h-6 rounded object-cover flex-shrink-0"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    )}
-                    <span className="truncate">{option.label}</span>
-                  </div>
+                  <span className="truncate">{option.label}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

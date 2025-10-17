@@ -129,6 +129,7 @@ export function TeamSections() {
                         <img 
                           src={getHeroPortraitUrl(hero.id)}
                           alt={hero.name}
+                          loading="lazy"
                           className="w-12 h-16 rounded object-cover"
                         />
                       )}

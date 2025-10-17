@@ -94,6 +94,7 @@ export function SolutionSection() {
                           <img 
                             src={getHeroPortraitUrl(hero.id)} 
                             alt={hero.name}
+                            loading="lazy"
                             className="w-16 h-16 rounded-md object-cover border border-[#30363d]"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none'

@@ -41,6 +41,8 @@ export function TeamHeroPicker({
   const [searchQuery, setSearchQuery] = React.useState("")
   const [selectedHeroId, setSelectedHeroId] = React.useState(value?.heroId || "")
   const [selectedRole, setSelectedRole] = React.useState(value?.role || "")
+  const [highlightedIndex, setHighlightedIndex] = React.useState(0)
+  const heroRefs = React.useRef<Map<number, HTMLButtonElement>>(new Map())
 
   // Sync internal state with value prop when it changes or modal opens
   React.useEffect(() => {
@@ -58,6 +60,26 @@ export function TeamHeroPicker({
       option.label.toLowerCase().includes(query)
     )
   }, [options, searchQuery])
+
+  // Auto-scroll to first matching hero and highlight it
+  React.useEffect(() => {
+    if (!open || !searchQuery || filteredOptions.length === 0) {
+      setHighlightedIndex(0)
+      return
+    }
+
+    // Set highlighted to first filtered option
+    const firstFilteredHeroId = parseInt(filteredOptions[0].value)
+    const heroElement = heroRefs.current.get(firstFilteredHeroId)
+    
+    if (heroElement) {
+      heroElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      })
+      setHighlightedIndex(0)
+    }
+  }, [searchQuery, filteredOptions, open])
 
   // Group heroes by attribute
   const herosByAttribute = React.useMemo(() => {
@@ -105,6 +127,7 @@ export function TeamHeroPicker({
   React.useEffect(() => {
     if (!open) {
       setSearchQuery("")
+      setHighlightedIndex(0)
       return
     }
 
@@ -118,12 +141,41 @@ export function TeamHeroPicker({
         setSearchQuery(prev => prev.slice(0, -1))
       } else if (e.key === 'Escape') {
         setSearchQuery("")
+        setHighlightedIndex(0)
+      } else if (e.key === 'Enter' && filteredOptions.length > 0) {
+        e.preventDefault()
+        // Select the first filtered (highlighted) hero
+        const firstHero = filteredOptions[highlightedIndex]
+        if (firstHero) {
+          const heroIdNum = parseInt(firstHero.value)
+          if (!usedHeroes.has(heroIdNum)) {
+            setSelectedHeroId(firstHero.value)
+          }
+        }
+      } else if (e.key === 'ArrowDown' && filteredOptions.length > 0) {
+        e.preventDefault()
+        setHighlightedIndex(prev => {
+          const newIndex = Math.min(prev + 1, filteredOptions.length - 1)
+          const heroId = parseInt(filteredOptions[newIndex].value)
+          const heroElement = heroRefs.current.get(heroId)
+          heroElement?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          return newIndex
+        })
+      } else if (e.key === 'ArrowUp' && filteredOptions.length > 0) {
+        e.preventDefault()
+        setHighlightedIndex(prev => {
+          const newIndex = Math.max(prev - 1, 0)
+          const heroId = parseInt(filteredOptions[newIndex].value)
+          const heroElement = heroRefs.current.get(heroId)
+          heroElement?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          return newIndex
+        })
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [open])
+  }, [open, filteredOptions, highlightedIndex, usedHeroes])
 
   // Auto-reset search after 3 seconds of inactivity
   React.useEffect(() => {
@@ -231,14 +283,23 @@ export function TeamHeroPicker({
                       <div className="flex-1 h-px bg-[#21262d]"></div>
                     </div>
                     <div className="grid grid-cols-4 xs:grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-14 2xl:grid-cols-16 gap-1.5 sm:gap-2">
-                      {heroesInAttribute.map((option) => {
+                      {heroesInAttribute.map((option, idx) => {
                         const isFiltered = !filteredOptions.some(filtered => filtered.value === option.value)
                         const isSelected = option.value === selectedHeroId
                         const isUsed = usedHeroes.has(parseInt(option.value))
+                        const filteredIdx = filteredOptions.findIndex(f => f.value === option.value)
+                        const isHighlighted = filteredIdx === highlightedIndex && filteredIdx !== -1
                         
                         return (
                           <button
                             key={option.value}
+                            ref={(el) => {
+                              if (el) {
+                                heroRefs.current.set(parseInt(option.value), el)
+                              } else {
+                                heroRefs.current.delete(parseInt(option.value))
+                              }
+                            }}
                             onClick={() => handleHeroSelect(option.value)}
                             disabled={isUsed}
                             className={cn(
@@ -247,6 +308,8 @@ export function TeamHeroPicker({
                               !isUsed && "hover:scale-105 hover:z-10",
                               isSelected 
                                 ? "border-[#58a6ff] ring-2 ring-[#58a6ff]/50 scale-105" 
+                                : isHighlighted
+                                ? "border-[#136F63] ring-2 ring-[#136F63]/50 scale-105"
                                 : "border-transparent hover:border-[#8b949e]",
                               (isFiltered || isUsed) && "opacity-30 grayscale",
                               isUsed && "cursor-not-allowed"
@@ -257,6 +320,7 @@ export function TeamHeroPicker({
                                 <img
                                   src={option.imageUrl}
                                   alt={option.label}
+                                  loading="lazy"
                                   className={cn(
                                     "w-full h-full object-cover transition-all",
                                     !isFiltered && "group-hover:brightness-110"
