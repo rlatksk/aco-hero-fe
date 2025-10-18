@@ -46,27 +46,25 @@ export function OptimizeButton() {
   })
 
   const handleOptimize = () => {
-    if (!hasAnyData) {
-      toast.warning('No data provided', {
-        description: 'Please select heroes to optimize',
+    if (!hasValidData) {
+      toast.warning('Missing required heroes', {
+        description: 'Please add at least one hero to your team or enemy team',
       })
       return
     }
     mutation.mutate()
   }
 
-  // Check if there's at least one valid hero selected in "your team"
   const hasValidTeamHero = Object.values(yourTeam).some(id => id !== undefined && id !== -1)
+  const hasValidEnemyHero = enemyHeroes.some(id => id !== -1)
   
-  const hasAnyData = bannedHeroes.some(id => id !== -1) || 
-                    hasValidTeamHero || 
-                    enemyHeroes.some(id => id !== -1)
+  const hasValidData = hasValidTeamHero || hasValidEnemyHero
 
   return (
     <div className="flex justify-center py-6">
       <Button
         onClick={handleOptimize}
-        disabled={!hasAnyData || isOptimizing}
+        disabled={!hasValidData || isOptimizing}
         size="lg"
         className="bg-[#136F63] hover:bg-[#136F63]/90 text-[#F5FBEF] font-semibold px-10 py-6 rounded-md transition-colors border border-[#136F63]/50"
       >

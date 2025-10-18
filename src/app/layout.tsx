@@ -40,7 +40,14 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
-          <Toaster position="top-right" theme="dark" richColors />
+          <Toaster 
+            position="top-right" 
+            theme="dark" 
+            richColors 
+            expand={true}
+            visibleToasts={5}
+            gap={8}
+          />
         </Providers>
       </body>
     </html>
