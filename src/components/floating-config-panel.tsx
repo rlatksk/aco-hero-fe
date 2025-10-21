@@ -1,14 +1,27 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useAppStore } from '@/store/app-store'
-import { RotateCcw, Settings, X } from 'lucide-react'
+import { RotateCcw, Settings, X, Zap, Info } from 'lucide-react'
 
 export function FloatingConfigPanel() {
   const [isOpen, setIsOpen] = useState(false)
+  const [showHint, setShowHint] = useState(true)
   const { config, updateConfig, resetConfig } = useAppStore()
+
+  useEffect(() => {
+    const hasSeenHint = localStorage.getItem('hasSeenConfigHint')
+    if (hasSeenHint) {
+      setShowHint(false)
+    }
+  }, [])
+
+  const dismissHint = () => {
+    setShowHint(false)
+    localStorage.setItem('hasSeenConfigHint', 'true')
+  }
 
   const handleInputChange = (key: keyof typeof config, value: number | boolean) => {
     updateConfig({ [key]: value })
@@ -22,7 +35,8 @@ export function FloatingConfigPanel() {
       min: 1,
       max: 100,
       step: 1,
-      description: 'Number of ants in the colony'
+      description: 'Number of ants in the colony',
+      tooltip: 'More ants explore more solutions but take longer'
     },
     {
       key: 'num_iterations' as const,
@@ -31,7 +45,8 @@ export function FloatingConfigPanel() {
       min: 1,
       max: 200,
       step: 1,
-      description: 'Number of optimization iterations'
+      description: 'Number of optimization iterations',
+      tooltip: 'More iterations improve solution quality'
     },
     {
       key: 'alpha' as const,
@@ -40,7 +55,8 @@ export function FloatingConfigPanel() {
       min: 0.1,
       max: 5.0,
       step: 0.1,
-      description: 'Pheromone importance factor'
+      description: 'Pheromone importance factor',
+      tooltip: 'Higher values favor previous good solutions'
     },
     {
       key: 'beta' as const,
@@ -49,7 +65,8 @@ export function FloatingConfigPanel() {
       min: 0.1,
       max: 5.0,
       step: 0.1,
-      description: 'Heuristic importance factor'
+      description: 'Heuristic importance factor',
+      tooltip: 'Higher values favor greedy choices'
     },
     {
       key: 'evaporation_rate' as const,
@@ -58,7 +75,8 @@ export function FloatingConfigPanel() {
       min: 0.01,
       max: 1.0,
       step: 0.01,
-      description: 'Pheromone evaporation rate'
+      description: 'Pheromone evaporation rate',
+      tooltip: 'Higher values forget old solutions faster'
     },
     {
       key: 'pheromone_deposit' as const,
@@ -67,19 +85,49 @@ export function FloatingConfigPanel() {
       min: 0.1,
       max: 5.0,
       step: 0.1,
-      description: 'Amount of pheromone deposited'
+      description: 'Amount of pheromone deposited',
+      tooltip: 'Higher values strengthen good solution paths'
     }
   ]
 
+  const presets = [
+    { name: 'Fast', ants: 20, iterations: 30, description: 'Quick results, lower quality' },
+    { name: 'Balanced', ants: 30, iterations: 40, description: 'Default optimized settings' },
+    { name: 'Quality', ants: 40, iterations: 60, description: 'Better results, slower' }
+  ]
+
+  const applyPreset = (preset: typeof presets[0]) => {
+    updateConfig({ 
+      num_ants: preset.ants, 
+      num_iterations: preset.iterations 
+    })
+  }
+
   return (
     <>
+      {!isOpen && showHint && (
+        <div className="fixed bottom-23 right-3.5 z-40 animate-pulse">
+          <div className="bg-[#136F63] text-[#F5FBEF] px-3 py-2 rounded-lg shadow-lg text-xs flex items-center gap-2 relative">
+            <Zap className="h-3 w-3" />
+            <span>Customize ACO parameters</span>
+            <button 
+              onClick={dismissHint}
+              className="ml-2 hover:bg-white/20 rounded p-0.5"
+            >
+              <X className="h-3 w-3" />
+            </button>
+            <div className="absolute -bottom-2 right-8 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[#136F63]" />
+          </div>
+        </div>
+      )}
+
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-[#136F63] hover:bg-[#136F63]/90 text-[#F5FBEF] p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#136F63]/50"
+          className="fixed bottom-6 right-6 bg-[#136F63] hover:bg-[#136F63]/90 text-[#F5FBEF] p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#136F63]/50 group"
           aria-label="Open ACO Configuration"
         >
-          <Settings className="h-6 w-6" />
+          <Settings className="h-6 w-6 group-hover:rotate-90 transition-transform duration-300" />
         </button>
       )}
 
@@ -119,11 +167,39 @@ export function FloatingConfigPanel() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3 max-h-[calc(90vh-80px)] overflow-y-auto pt-3">
+              
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-medium text-[#8b949e]">Quick Presets</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {presets.map((preset) => (
+                    <button
+                      key={preset.name}
+                      onClick={() => applyPreset(preset)}
+                      className="flex flex-col items-center justify-center p-2 rounded-md bg-[#0d1117] hover:bg-[#161b22] border border-[#30363d] hover:border-[#58a6ff] transition-colors group"
+                      title={preset.description}
+                    >
+                      <span className="text-xs font-semibold text-[#58a6ff] group-hover:text-[#79c0ff]">{preset.name}</span>
+                      <span className="text-[10px] text-[#8b949e]">{preset.ants}×{preset.iterations}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-[#30363d]" />
+
               {configFields.map((field) => (
-                <div key={field.key} className="space-y-1.5">
+                <div key={field.key} className="space-y-1.5 group">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-medium" htmlFor={field.key}>
+                    <label className="text-xs font-medium flex items-center gap-1" htmlFor={field.key}>
                       {field.label}
+                      <div className="relative inline-block">
+                        <Info className="h-3 w-3 text-[#8b949e] opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#161b22] text-[10px] text-[#8b949e] rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-[#30363d]">
+                          {field.tooltip}
+                        </span>
+                      </div>
                     </label>
                     <span className="text-xs text-[#58a6ff] font-mono">
                       {config[field.key]}
@@ -164,6 +240,28 @@ export function FloatingConfigPanel() {
                   Include all available heroes in optimization
                 </p>
               </div>
+
+              {!config.use_all_heroes && (
+                <div className="space-y-1.5 pt-2 border-t border-[#30363d]">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-medium" htmlFor="max_heroes">
+                      Max Heroes
+                    </label>
+                    <input
+                      id="max_heroes"
+                      type="number"
+                      min="1"
+                      max="126"
+                      value={config.max_heroes || 50}
+                      onChange={(e) => handleInputChange('max_heroes', parseInt(e.target.value) || 50)}
+                      className="w-16 h-7 px-2.5 rounded-md input-bg text-xs transition-colors"
+                    />
+                  </div>
+                  <p className="text-[10px] text-[#8b949e]">
+                    First {config.max_heroes || 50} heroes by ID
+                  </p>
+                </div>
+              )}
 
               <div className="pt-2 border-t border-[#30363d]">
                 <p className="text-[10px] text-[#8b949e] text-center">

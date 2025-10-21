@@ -116,26 +116,48 @@ export function ConfigurationPanel() {
           </div>
         ))}
         
-        {/* Use All Heroes Toggle */}
-        <div className="space-y-2 pt-2 border-t border-[#30363d]">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium" htmlFor="use_all_heroes">
-              Use All Heroes
-            </label>
-            <input
-              id="use_all_heroes"
-              type="checkbox"
-              checked={config.use_all_heroes}
-              onChange={(e) => handleInputChange('use_all_heroes', e.target.checked)}
-              className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff] focus:ring-1"
-            />
+        <div className="space-y-3 pt-2 border-t border-[#30363d]">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium" htmlFor="use_all_heroes">
+                Use All Heroes
+              </label>
+              <input
+                id="use_all_heroes"
+                type="checkbox"
+                checked={config.use_all_heroes}
+                onChange={(e) => handleInputChange('use_all_heroes', e.target.checked)}
+                className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff] focus:ring-1"
+              />
+            </div>
+            <p className="text-xs text-[#8b949e]">
+              {config.use_all_heroes ? 'Using all 126 heroes' : 'Limit hero pool size'}
+            </p>
           </div>
-          <p className="text-xs text-[#8b949e]">
-            Include all available heroes in optimization
-          </p>
+
+          {!config.use_all_heroes && (
+            <div className="space-y-2 pl-1">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-[#8b949e]" htmlFor="max_heroes">
+                  Hero Pool Size
+                </label>
+                <input
+                  id="max_heroes"
+                  type="number"
+                  min="1"
+                  max="126"
+                  value={config.max_heroes || 50}
+                  onChange={(e) => handleInputChange('max_heroes', parseInt(e.target.value) || 50)}
+                  className="w-20 h-8 px-3 rounded-md input-bg text-sm text-foreground transition-colors"
+                />
+              </div>
+              <p className="text-xs text-[#8b949e]">
+                First {config.max_heroes || 50} heroes by ID
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Configuration Summary */}
         <div className="pt-4 border-t border-[#30363d]">
           <p className="text-xs text-[#8b949e] text-center">
             Ant Colony Optimization parameters for metaheuristic search

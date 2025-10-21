@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Plus, X, Trash2 } from 'lucide-react'
+import { Plus, X, Trash2, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TeamHeroPicker } from '@/components/ui/team-hero-picker'
@@ -85,9 +85,16 @@ export function TeamSections() {
     <div className="space-y-6">
       <Card className="card-hover">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-lg font-semibold">
-            Your Team ({teamMembers.length}/5)
-          </CardTitle>
+          <div className="flex items-center gap-2">
+            {teamMembers.length > 0 ? (
+              <CheckCircle2 className="h-5 w-5 text-[#3fb950]" />
+            ) : (
+              <AlertCircle className="h-5 w-5 text-[#f85149]" />
+            )}
+            <CardTitle className="text-lg font-semibold">
+              Your Team ({teamMembers.length}/5)
+            </CardTitle>
+          </div>
           <div className="flex items-center gap-2">
             {teamMembers.length > 0 && (
               <Button 

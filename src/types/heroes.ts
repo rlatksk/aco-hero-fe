@@ -49,6 +49,7 @@ export interface OptimizationConfig {
   evaporation_rate: number
   pheromone_deposit: number
   use_all_heroes: boolean
+  max_heroes?: number // Number of heroes to include when use_all_heroes is false
 }
 
 export interface Teammate {
@@ -89,13 +90,14 @@ export interface OptimizationResponse {
 
 // Default configuration
 export const DEFAULT_CONFIG: OptimizationConfig = {
-  num_ants: 25,
+  num_ants: 30,
   num_iterations: 40,
-  alpha: 1.2,
-  beta: 2.0,
-  evaporation_rate: 0.12,
-  pheromone_deposit: 1.2,
-  use_all_heroes: true
+  alpha: 1.5,
+  beta: 2.5,
+  evaporation_rate: 0.1,
+  pheromone_deposit: 1.5,
+  use_all_heroes: true,
+  max_heroes: 50
 }
 
 // Role to position mapping

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Plus, X, Trash2 } from 'lucide-react'
+import { Plus, X, Trash2, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { HeroPicker } from '@/components/ui/hero-picker'
@@ -58,7 +58,12 @@ export function BannedList() {
   return (
     <Card className="card-hover">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold">Banned Heroes ({actualBannedCount})</CardTitle>
+        <div className="flex items-center gap-2">
+          {actualBannedCount > 0 && (
+            <CheckCircle2 className="h-5 w-5 text-[#3fb950]" />
+          )}
+          <CardTitle className="text-lg font-semibold">Banned Heroes ({actualBannedCount})</CardTitle>
+        </div>
         <div className="flex items-center gap-2">
           {actualBannedCount > 0 && (
             <Button 

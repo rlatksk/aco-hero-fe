@@ -107,7 +107,7 @@ export default function Home() {
     <main className="min-h-screen p-4 relative">
       <div className="container mx-auto max-w-7xl relative z-10">
         <header className="text-center py-8 mb-6">
-          <h1 className="text-4xl font-bold text-foreground mb-2 tracking-tight">
+          <h1 className="text-4xl font-bold text-foreground tracking-tight mb-2">
             Dota 2 <span className="text-[#58a6ff]">ACO</span> Optimizer
           </h1>
           <p className="text-sm text-[#8b949e] max-w-2xl mx-auto leading-relaxed">
@@ -133,19 +133,16 @@ export default function Home() {
         </footer>
 
         <FloatingConfigPanel />
-        
-        {/* Floating Clear All Button */}
+
         {hasData && (
-          <div className="fixed bottom-6 left-6 z-50">
-            <Button
-              onClick={handleClearAll}
-              size="lg"
-              className="bg-[#ff7b72] hover:bg-[#ff8b82] text-[#F5FBEF] shadow-lg hover:shadow-xl transition-all duration-200 rounded-full h-14 px-6"
-            >
-              <Trash2 className="h-5 w-5 mr-2" />
-              Clear All
-            </Button>
-          </div>
+          <button
+            onClick={handleClearAll}
+            className="fixed bottom-6 left-6 bg-[#ff7b72] hover:bg-[#ff8b82] text-white p-4 rounded-full shadow-lg transition-all duration-200 z-40 flex items-center gap-2 border border-[#ff7b72]/50"
+            aria-label="Clear all selections"
+            title="Clear all selections"
+          >
+            <Trash2 className="h-6 w-6" />
+          </button>
         )}
       </div>
     </main>

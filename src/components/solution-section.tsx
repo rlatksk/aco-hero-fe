@@ -63,7 +63,7 @@ export function SolutionSection() {
   const sortedTeamBreakdown = solution.team_breakdown ? sortByPosition(solution.team_breakdown) : []
 
   return (
-    <Card>
+    <Card id="solution-section">
       <CardHeader className="border-b border-[#30363d]">
         <CardTitle className="text-lg font-semibold flex items-center justify-between">
           <div className="flex items-center gap-2">
