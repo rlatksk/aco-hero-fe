@@ -90,11 +90,11 @@ export interface OptimizationResponse {
 
 // Default configuration
 export const DEFAULT_CONFIG: OptimizationConfig = {
-  num_ants: 30,
-  num_iterations: 40,
-  alpha: 1.5,
+  num_ants: 40,
+  num_iterations: 50,
+  alpha: 1.0,
   beta: 2.5,
-  evaporation_rate: 0.1,
+  evaporation_rate: 0.15,
   pheromone_deposit: 1.5,
   use_all_heroes: true,
   max_heroes: 50
