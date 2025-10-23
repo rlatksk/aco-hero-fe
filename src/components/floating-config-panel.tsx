@@ -90,19 +90,6 @@ export function FloatingConfigPanel() {
     }
   ]
 
-  const presets = [
-    { name: 'Fast', ants: 20, iterations: 30, description: 'Quick results, lower quality' },
-    { name: 'Balanced', ants: 30, iterations: 40, description: 'Default optimized settings' },
-    { name: 'Quality', ants: 40, iterations: 60, description: 'Better results, slower' }
-  ]
-
-  const applyPreset = (preset: typeof presets[0]) => {
-    updateConfig({ 
-      num_ants: preset.ants, 
-      num_iterations: preset.iterations 
-    })
-  }
-
   return (
     <>
       {!isOpen && showHint && (
@@ -168,27 +155,6 @@ export function FloatingConfigPanel() {
             </CardHeader>
             <CardContent className="space-y-3 max-h-[calc(90vh-80px)] overflow-y-auto pt-3">
               
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-medium text-[#8b949e]">Quick Presets</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {presets.map((preset) => (
-                    <button
-                      key={preset.name}
-                      onClick={() => applyPreset(preset)}
-                      className="flex flex-col items-center justify-center p-2 rounded-md bg-[#0d1117] hover:bg-[#161b22] border border-[#30363d] hover:border-[#58a6ff] transition-colors group"
-                      title={preset.description}
-                    >
-                      <span className="text-xs font-semibold text-[#58a6ff] group-hover:text-[#79c0ff]">{preset.name}</span>
-                      <span className="text-[10px] text-[#8b949e]">{preset.ants}×{preset.iterations}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-[#30363d]" />
-
               {configFields.map((field) => (
                 <div key={field.key} className="space-y-1.5 group">
                   <div className="flex items-center justify-between">
