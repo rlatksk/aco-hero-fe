@@ -182,34 +182,6 @@ export function SolutionSection() {
         )}
 
         {solution.performance && (
-          <div className="pt-4 border-t border-[#30363d]">
-            <h4 className="font-medium text-sm mb-2.5">Performance</h4>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
-              <div className="card-bg card-hover p-3 rounded-md">
-                <div className="text-[#8b949e] text-[10px] mb-1">Execution Time</div>
-                <div className="font-bold text-sm font-mono">{solution.performance.execution_time_seconds.toFixed(3)}s</div>
-              </div>
-              <div className="card-bg card-hover p-3 rounded-md">
-                <div className="text-[#8b949e] text-[10px] mb-1">Solutions</div>
-                <div className="font-bold text-sm font-mono">{solution.performance.solutions_explored.toLocaleString()}</div>
-              </div>
-              <div className="card-bg card-hover p-3 rounded-md">
-                <div className="text-[#8b949e] text-[10px] mb-1">Search Space</div>
-                <div className="font-bold text-sm font-mono">{solution.performance.search_space.toLocaleString()}</div>
-              </div>
-              <div className="card-bg card-hover p-3 rounded-md">
-                <div className="text-[#8b949e] text-[10px] mb-1">Total Runs</div>
-                <div className="font-bold text-sm font-mono">{solution.performance.total_runs}</div>
-              </div>
-              <div className="card-bg card-hover p-3 rounded-md">
-                <div className="text-[#8b949e] text-[10px] mb-1">Mode</div>
-                <div className="font-medium text-xs">{solution.performance.mode}</div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {solution.performance && (
           <>
             <div className="pt-4 border-t border-[#30363d]">
               <h4 className="font-medium text-sm mb-2.5">Performance</h4>
