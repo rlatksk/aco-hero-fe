@@ -78,6 +78,7 @@ export interface OptimizationResponse {
     search_space: number
     mode: string
     total_runs: number
+    run_scores: number[]
   }
   team_breakdown: Array<{
     hero_name: string

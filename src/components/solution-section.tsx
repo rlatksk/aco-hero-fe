@@ -208,6 +208,59 @@ export function SolutionSection() {
             </div>
           </div>
         )}
+
+        {solution.performance && (
+          <>
+            <div className="pt-4 border-t border-[#30363d]">
+              <h4 className="font-medium text-sm mb-2.5">Performance</h4>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
+                <div className="card-bg card-hover p-3 rounded-md">
+                  <div className="text-[#8b949e] text-[10px] mb-1">Execution Time</div>
+                  <div className="font-bold text-sm font-mono">{solution.performance.execution_time_seconds.toFixed(3)}s</div>
+                </div>
+                <div className="card-bg card-hover p-3 rounded-md">
+                  <div className="text-[#8b949e] text-[10px] mb-1">Solutions</div>
+                  <div className="font-bold text-sm font-mono">{solution.performance.solutions_explored.toLocaleString()}</div>
+                </div>
+                <div className="card-bg card-hover p-3 rounded-md">
+                  <div className="text-[#8b949e] text-[10px] mb-1">Search Space</div>
+                  <div className="font-bold text-sm font-mono">{solution.performance.search_space.toLocaleString()}</div>
+                </div>
+                <div className="card-bg card-hover p-3 rounded-md">
+                  <div className="text-[#8b949e] text-[10px] mb-1">Total Runs</div>
+                  <div className="font-bold text-sm font-mono">{solution.performance.total_runs}</div>
+                </div>
+                <div className="card-bg card-hover p-3 rounded-md">
+                  <div className="text-[#8b949e] text-[10px] mb-1">Mode</div>
+                  <div className="font-medium text-xs">{solution.performance.mode}</div>
+                </div>
+              </div>
+            </div>
+
+            {solution.performance.run_scores && solution.performance.run_scores.length > 0 && (
+              <div className="pt-4 border-t border-[#30363d]">
+                <h4 className="font-medium text-sm mb-2.5">Run Scores</h4>
+                <div className="flex flex-wrap gap-2">
+                  {solution.performance.run_scores.map((score, index) => (
+                    <div 
+                      key={index} 
+                      className={`card-bg px-3 py-2 rounded-md ${
+                        score === solution.best_score 
+                          ? 'ring-2 ring-[#58a6ff] bg-[#58a6ff]/10' 
+                          : 'card-hover'
+                      }`}
+                    >
+                      <div className="text-[#8b949e] text-[10px] mb-0.5">Run {index + 1}</div>
+                      <div className="font-bold text-xs font-mono text-foreground">
+                        {score.toFixed(4)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </CardContent>
     </Card>
   )
