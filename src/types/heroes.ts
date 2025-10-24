@@ -48,6 +48,7 @@ export interface OptimizationConfig {
   beta: number
   evaporation_rate: number
   pheromone_deposit: number
+  num_runs: number
   use_all_heroes: boolean
   max_heroes?: number // Number of heroes to include when use_all_heroes is false
 }
@@ -76,6 +77,7 @@ export interface OptimizationResponse {
     solutions_explored: number
     search_space: number
     mode: string
+    total_runs: number
   }
   team_breakdown: Array<{
     hero_name: string
@@ -96,6 +98,7 @@ export const DEFAULT_CONFIG: OptimizationConfig = {
   beta: 2.5,
   evaporation_rate: 0.15,
   pheromone_deposit: 1.5,
+  num_runs: 10,
   use_all_heroes: true,
   max_heroes: 50
 }

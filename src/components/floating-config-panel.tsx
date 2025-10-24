@@ -87,6 +87,16 @@ export function FloatingConfigPanel() {
       step: 0.1,
       description: 'Amount of pheromone deposited',
       tooltip: 'Higher values strengthen good solution paths'
+    },
+    {
+      key: 'num_runs' as const,
+      label: 'Number of Runs',
+      type: 'number',
+      min: 1,
+      max: 50,
+      step: 1,
+      description: 'Number of optimization runs',
+      tooltip: 'Run optimization multiple times and return best result'
     }
   ]
 
