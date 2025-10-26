@@ -145,7 +145,7 @@ export default function AboutPage() {
                   size="lg"
                 >
                   <a 
-                    href="https://forms.gle/YOUR_GOOGLE_FORM_ID" 
+                    href="https://forms.gle/ownHbss7wBR3mCT88"
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
