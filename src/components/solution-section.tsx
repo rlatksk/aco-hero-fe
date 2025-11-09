@@ -105,6 +105,18 @@ export function SolutionSection() {
                           <div className="font-semibold text-foreground text-xs">
                             {hero.name}
                           </div>
+                          {hero.roles && hero.roles.length > 0 && (
+                            <div className="flex flex-wrap gap-1 justify-center">
+                              {hero.roles.slice(0, 2).map((role, idx) => (
+                                <span 
+                                  key={idx}
+                                  className="text-[9px] px-1.5 py-0.5 rounded bg-[#58a6ff]/10 text-[#58a6ff] border border-[#58a6ff]/20"
+                                >
+                                  {role}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                           <div className="text-[10px] text-[#8b949e] font-mono">
                             {pick.score.toFixed(2)}
                           </div>

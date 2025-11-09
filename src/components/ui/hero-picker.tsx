@@ -11,7 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { HeroAttribute, ATTRIBUTE_LABELS, getHeroAttribute } from "@/types/heroes"
+import { HeroAttribute, ATTRIBUTE_LABELS } from "@/types/heroes"
+import { useAppStore } from "@/store/app-store"
 import Image from "next/image"
 
 export interface HeroOption {
@@ -45,6 +46,7 @@ export function HeroPicker({
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
 }: HeroPickerProps) {
+  const { heroes } = useAppStore()
   const [internalOpen, setInternalOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [highlightedIndex, setHighlightedIndex] = React.useState(0)
@@ -96,7 +98,8 @@ export function HeroPicker({
     
     options.forEach(option => {
       const heroId = parseInt(option.value)
-      const attribute = getHeroAttribute(heroId)
+      const hero = heroes.find(h => h.id === heroId)
+      const attribute = (hero?.primary_attribute as HeroAttribute) || HeroAttribute.UNIVERSAL
       groups[attribute].push(option)
     })
     
